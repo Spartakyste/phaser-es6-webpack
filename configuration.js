@@ -1,0 +1,1 @@
+module.exports = { BE_URL: 'http://localhost:9626' };

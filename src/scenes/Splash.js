@@ -9,11 +9,10 @@ export default class extends Phaser.Scene {
     //
     // load your assets
     //
-    this.load.image('mushroom', 'assets/images/mushroom2.png')
   }
 
   create () {
-    this.scene.start('GameScene')
+    this.scene.start('MenuScene')
   }
 
   update () {}
