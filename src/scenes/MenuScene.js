@@ -11,9 +11,13 @@ export default class MenuScene extends Phaser.Scene {
    }
 
   preload() { 
+    this.load.image('sky', '../../assets/images/sky.jpg');
   }
 
   create() {
+
+    this.add.image(0, 0, 'sky');
+
     const newGameButton = this.add.text(100, 100, 'New Game', {
       font: '32px Bangers',
       fill: '#7744ff'
