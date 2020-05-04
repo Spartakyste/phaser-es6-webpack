@@ -3,7 +3,14 @@ import Phaser from 'phaser'
 export default {
   type: Phaser.AUTO,
   parent: 'content',
-  width: window.innerWidth,
-  height: window.innerHeight,
-  localStorageName: 'phaseres6webpack'
+  width: 640,
+  height:640,
+  localStorageName: 'phaseres6webpack',
+  physics: {
+    default: "arcade",
+    arcade: {
+      debug : true,
+      gravity: { y: 0 }
+    }
+  }
 }

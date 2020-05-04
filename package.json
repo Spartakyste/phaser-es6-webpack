@@ -10,17 +10,18 @@
   },
   "license": "MIT",
   "devDependencies": {
-    "@babel/core": "^7.0.0",
+    "@babel/core": "^7.8.6",
     "@babel/plugin-proposal-class-properties": "^7.8.3",
     "@babel/plugin-proposal-optional-chaining": "^7.8.3",
-    "@babel/preset-env": "^7.0.0",
+    "@babel/preset-env": "^7.8.6",
     "babel-eslint": "^9.0.0",
-    "babel-loader": "^8.0.2",
+    "babel-loader": "^8.0.6",
+    "babel-plugin-syntax-async-functions": "^6.13.0",
     "browser-sync": "^2.26.7",
     "browser-sync-webpack-plugin": "^2.2.2",
     "expose-loader": "^0.7.5",
-    "webpack": "^4.17.2",
-    "webpack-cli": "^3.1.0"
+    "webpack": "^4.41.6",
+    "webpack-cli": "^3.3.11"
   },
   "dependencies": {
     "axios": "^0.19.2",
