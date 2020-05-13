@@ -1,6 +1,7 @@
 /* globals __DEV__ */
 import Phaser from 'phaser';
 
+
 export default class StarterScene extends Phaser.Scene {
     constructor() {
         super({ key: 'StarterScene' });
@@ -26,6 +27,7 @@ export default class StarterScene extends Phaser.Scene {
     }
 
     create() {
+        console.log('this.cache', this.cache);
         const map = this.make.tilemap({ key: 'map' });
 
 
