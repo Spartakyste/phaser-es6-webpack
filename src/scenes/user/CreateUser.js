@@ -4,16 +4,18 @@ import axios from 'axios';
 
 import configuration from '../../../configuration';
 
-const postUser = async (callback) => {
-    await axios.post(`${configuration.BE_URL}/user`, { user: { username: this.inputValue } });
-    callback();
-};
 
 export default class CreateUser extends Phaser.Scene {
     constructor() {
         super({ key: 'CreateUser' });
 
         this.inputValue = '';
+        this.alreadyClicked = false;
+
+        this.postUser = async (callback) => {
+            await axios.post(`${configuration.BE_URL}/user`, { user: { username: this.inputValue } });
+            callback();
+        };
     }
 
 
@@ -32,19 +34,20 @@ export default class CreateUser extends Phaser.Scene {
 
         backButton.on('pointerdown', () => this.scene.start('MenuScene'));
 
-        const rectangle = this.add.rectangle(400, 300, 600, 300, 0xffffff, 1);
 
-        const interactiveContainer = this.add.rectangle(400, 300, 400, 50, 0xACACAC, 1).setInteractive();
+        const interactiveContainer = this.add.rectangle(400, 300, 400, 50, 0xffffff, 1).setInteractive();
 
 
         interactiveContainer.on('pointerdown', () => {
-            const input = this.add.rectangle(400, 300, 300, 25, 0xDDDDDD, 1).setInteractive();
-            const inputText = this.add.text(300, 290, this.inputValue);
+            if (this.alreadyClicked) return;
+            this.alreadyClicked = true;
+
+            const inputText = this.add.text(300, 290, this.inputValue, { color: 'Black' });
 
             const button = this.add.rectangle(500, 400, 100, 25, 0xDDDDDD, 1).setInteractive();
             const buttonText = this.add.text(470, 390, 'Envoyer');
 
-            button.on('pointerdown', postUser(() => this.scene.start('StarterScene')));
+            button.on('pointerdown', () => this.postUser(() => this.scene.start('StarterScene')));
 
             this.input.keyboard.on('keydown', (event) => {
                 if ((event.key === 'Backspace') && (this.inputValue.length >= 1)) {

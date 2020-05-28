@@ -17,6 +17,7 @@ module.exports = {
   rules: {
     "indent": ["error", 4],
     "max-len" : ["error",  { "code": 120, "ignoreComments": true }],
-    "new-cap": ["error", { "properties": false }]
+    "new-cap": ["error", { "properties": false }],
+    "class-methods-use-this" : 'off'
   },
 };

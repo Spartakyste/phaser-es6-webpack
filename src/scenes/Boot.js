@@ -12,13 +12,11 @@ export default class BootScene extends Phaser.Scene {
         axios.interceptors.response.use(
             (response) => response,
             (error) => {
-                console.log('error.config', error.config);
                 if (!error.status) {
                     this.serverError = true;
 
                     setTimeout(() => axios.request(error.config), 10000);
                 }
-                // return Promise.reject(error);
             },
         );
     }
@@ -26,7 +24,6 @@ export default class BootScene extends Phaser.Scene {
     async preload() {
         const result = await axios.get(`${configuration.BE_URL}/levels`);
         if (result) {
-            console.log('result', result);
             this.cache.custom.levels = result.data.levels;
 
             this.fontsReady = false;
