@@ -14,8 +14,12 @@ export default class Connect extends Phaser.Scene {
         this.usernameClicked = false;
         this.passwordClicked = false;
 
+        this.userFocus = null;
+
         this.postUser = async (callback) => {
-            await axios.post(`${configuration.BE_URL}/user`, { user: { username: this.inputValue } });
+            // TODO Create the call to ask for a jwt, then pass it into localStorage
+
+            const result = await axios.post(`${configuration.BE_URL}/user`, { user: { username: this.inputValue } });
             callback();
         };
     }
@@ -41,11 +45,33 @@ export default class Connect extends Phaser.Scene {
 
         const passwordContainer = this.add.rectangle(400, 400, 400, 50, 0xffffff, 1).setInteractive();
 
-        passwordContainer.on('pointerdown', () => {
-            if (this.alreadyClicked) return;
-            this.alreadyClicked = true;
 
-            const passwordText = this.add.text(300, 290, this.password, { color: 'Black' });
+        usernameContainer.on('pointerdown', () => {
+            this.input.keyboard.removeListener('keydown');
+            if (this.usernameClicked) return;
+            this.usernameClicked = true;
+            this.passwordClicked = false;
+
+            const usernameText = this.add.text(300, 290, this.username, { color: 'Black' });
+
+            this.input.keyboard.on('keydown', (event) => {
+                if ((event.key === 'Backspace') && (this.username.length >= 1)) {
+                    this.username = this.username.slice(0, -1);
+                } else {
+                    if (event.key.length > 1) return;
+                    this.username += event.key;
+                }
+                usernameText.setText(this.username);
+            });
+        });
+
+        passwordContainer.on('pointerdown', () => {
+            this.input.keyboard.removeListener('keydown');
+            if (this.passwordClicked) return;
+            this.passwordClicked = true;
+            this.usernameClicked = false;
+
+            const passwordText = this.add.text(300, 390, this.password, { color: 'Black' });
 
             const button = this.add.rectangle(500, 500, 100, 25, 0xDDDDDD, 1).setInteractive();
             const buttonText = this.add.text(470, 490, 'Envoyer');
@@ -60,28 +86,6 @@ export default class Connect extends Phaser.Scene {
                     this.password += event.key;
                 }
                 passwordText.setText(this.password);
-            });
-        });
-
-        usernameContainer.on('pointerdown', () => {
-            if (this.alreadyClicked) return;
-            this.alreadyClicked = true;
-
-            const usernameText = this.add.text(300, 290, this.username, { color: 'Black' });
-
-            const button = this.add.rectangle(500, 500, 100, 25, 0xDDDDDD, 1).setInteractive();
-            const buttonText = this.add.text(470, 490, 'Envoyer');
-
-            button.on('pointerdown', () => this.postUser(() => this.scene.start('StarterScene')));
-
-            this.input.keyboard.on('keydown', (event) => {
-                if ((event.key === 'Backspace') && (this.username.length >= 1)) {
-                    this.username = this.username.slice(0, -1);
-                } else {
-                    if (event.key.length > 1) return;
-                    this.username += event.key;
-                }
-                usernameText.setText(this.username);
             });
         });
     }
