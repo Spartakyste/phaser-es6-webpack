@@ -1,4 +1,3 @@
-/* globals __DEV__ */
 import Phaser from 'phaser';
 import axios from 'axios';
 
@@ -14,12 +13,23 @@ export default class Connect extends Phaser.Scene {
         this.usernameClicked = false;
         this.passwordClicked = false;
 
+        this.authFailed = false;
+
         this.userFocus = null;
 
         this.postUser = async (callback) => {
-            // TODO Create the call to ask for a jwt, then pass it into localStorage
+            const resultAuth = await axios.post(`${configuration.BE_URL}/auth`, { username: this.username, password: this.password });
 
-            const result = await axios.post(`${configuration.BE_URL}/user`, { user: { username: this.inputValue } });
+            if (!resultAuth) {
+                this.authFailed = true;
+                return;
+            }
+
+            const token = resultAuth.data.access_token;
+            this.cache.custom.user = resultAuth.data.user;
+
+            localStorage.setItem('access_token', token);
+
             callback();
         };
     }
@@ -74,7 +84,7 @@ export default class Connect extends Phaser.Scene {
             const passwordText = this.add.text(300, 390, this.password, { color: 'Black' });
 
             const button = this.add.rectangle(500, 500, 100, 25, 0xDDDDDD, 1).setInteractive();
-            const buttonText = this.add.text(470, 490, 'Envoyer');
+            this.add.text(470, 490, 'Envoyer');
 
             button.on('pointerdown', () => this.postUser(() => this.scene.start('StarterScene')));
 
@@ -88,5 +98,11 @@ export default class Connect extends Phaser.Scene {
                 passwordText.setText(this.password);
             });
         });
+    }
+
+    update() {
+        if (this.authFailed) {
+            this.add.text(400, 200, 'Wrong credentials', { color: 'Red' });
+        }
     }
 }

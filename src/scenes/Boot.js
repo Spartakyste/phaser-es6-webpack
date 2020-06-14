@@ -9,13 +9,16 @@ export default class BootScene extends Phaser.Scene {
 
         this.serverError = null;
 
+        const accessToken = localStorage.getItem('access_token');
+
+        if (accessToken) axios.defaults.headers.Authorization = accessToken;
+
         axios.interceptors.response.use(
             (response) => response,
             (error) => {
                 if (!error.status) {
                     this.serverError = true;
-
-                    setTimeout(() => axios.request(error.config), 10000);
+                    if (error.config.url === `${configuration.BE_URL}/levels`) setTimeout(() => axios.request(error.config), 10000);
                 }
             },
         );
@@ -43,7 +46,6 @@ export default class BootScene extends Phaser.Scene {
     }
 
     update() {
-        console.log('this.serverError', this.serverError);
         if (this.serverError) this.scene.start('ErrorScene');
         else if (this.fontsReady) {
             this.scene.start('SplashScene');

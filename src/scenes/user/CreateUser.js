@@ -1,4 +1,3 @@
-/* globals __DEV__ */
 import Phaser from 'phaser';
 import axios from 'axios';
 
@@ -45,7 +44,7 @@ export default class CreateUser extends Phaser.Scene {
             const inputText = this.add.text(300, 290, this.inputValue, { color: 'Black' });
 
             const button = this.add.rectangle(500, 400, 100, 25, 0xDDDDDD, 1).setInteractive();
-            const buttonText = this.add.text(470, 390, 'Envoyer');
+            this.add.text(470, 390, 'Envoyer');
 
             button.on('pointerdown', () => this.postUser(() => this.scene.start('StarterScene')));
 

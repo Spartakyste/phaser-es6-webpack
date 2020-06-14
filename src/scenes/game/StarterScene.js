@@ -1,4 +1,3 @@
-/* globals __DEV__ */
 import Phaser from 'phaser';
 
 
@@ -27,7 +26,6 @@ export default class StarterScene extends Phaser.Scene {
     }
 
     create() {
-        console.log('this.cache', this.cache);
         const map = this.make.tilemap({ key: 'map' });
 
 
@@ -36,9 +34,9 @@ export default class StarterScene extends Phaser.Scene {
         const grass = map.addTilesetImage('[A]Grass2_pipo', 'grass');
         const sea = map.addTilesetImage('[A]Water7_pipo', 'sea');
 
-        const groundLayer = map.createStaticLayer('Ground', [baseSet, grassAndDirt], 0, 0);
+        map.createStaticLayer('Ground', [baseSet, grassAndDirt], 0, 0);
         const seaLayer = map.createStaticLayer('Sea', sea, 0, 0);
-        const grassLayer = map.createStaticLayer('Grass', grass, 0, 0);
+        map.createStaticLayer('Grass', grass, 0, 0);
         const worldLayer = map.createStaticLayer('Player level', baseSet, 0, 0);
 
         worldLayer.setCollisionByProperty({ collides: true });
