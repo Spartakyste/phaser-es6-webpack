@@ -10,8 +10,6 @@ export default class Connect extends Phaser.Scene {
 
         this.username = '';
         this.password = '';
-        this.usernameClicked = false;
-        this.passwordClicked = false;
 
         this.authFailed = false;
 
@@ -55,14 +53,12 @@ export default class Connect extends Phaser.Scene {
 
         const passwordContainer = this.add.rectangle(400, 400, 400, 50, 0xffffff, 1).setInteractive();
 
+        const usernameText = this.add.text(300, 290, this.username, { color: 'Black' });
+
+        const passwordText = this.add.text(300, 390, this.password, { color: 'Black' });
 
         usernameContainer.on('pointerdown', () => {
             this.input.keyboard.removeListener('keydown');
-            if (this.usernameClicked) return;
-            this.usernameClicked = true;
-            this.passwordClicked = false;
-
-            const usernameText = this.add.text(300, 290, this.username, { color: 'Black' });
 
             this.input.keyboard.on('keydown', (event) => {
                 if ((event.key === 'Backspace') && (this.username.length >= 1)) {
@@ -77,11 +73,6 @@ export default class Connect extends Phaser.Scene {
 
         passwordContainer.on('pointerdown', () => {
             this.input.keyboard.removeListener('keydown');
-            if (this.passwordClicked) return;
-            this.passwordClicked = true;
-            this.usernameClicked = false;
-
-            const passwordText = this.add.text(300, 390, this.password, { color: 'Black' });
 
             const button = this.add.rectangle(500, 500, 100, 25, 0xDDDDDD, 1).setInteractive();
             this.add.text(470, 490, 'Envoyer');
